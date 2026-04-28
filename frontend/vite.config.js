@@ -7,7 +7,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: 'https://risecredit-api.onrender.com',
         changeOrigin: true,
       }
     }
