@@ -1,0 +1,846 @@
+/* ============================================
+   CREDIT INSURANCE PAGE — DARK THEME
+   ============================================ */
+
+/* HERO */
+.insurance-hero {
+  padding: 160px 0 80px;
+  background: var(--bg);
+}
+
+.insurance-hero__row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.insurance-hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.07);
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-body);
+  margin-bottom: 24px;
+}
+
+.insurance-hero__badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+.insurance-hero__title {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.insurance-hero__subtitle {
+  font-size: 1.1rem;
+  color: var(--text-body);
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+.insurance-hero__actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* HERO SNAPSHOT CARD */
+.insurance-snapshot {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 36px;
+}
+
+.insurance-snapshot__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.insurance-snapshot__header h2 {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  margin-bottom: 8px;
+}
+
+.insurance-snapshot__header p {
+  font-size: 0.9rem;
+  color: var(--text-body);
+}
+
+.insurance-snapshot__tag {
+  background: rgba(255,255,255,0.07);
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  white-space: nowrap;
+}
+
+.insurance-snapshot__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.insurance-snapshot__item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.insurance-snapshot__label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.insurance-snapshot__value {
+  font-size: 0.95rem;
+  color: var(--text-heading);
+}
+
+.insurance-snapshot__call {
+  background: rgba(255,255,255,0.04);
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-size: 0.9rem;
+  color: var(--text-body);
+  line-height: 1.5;
+}
+
+.insurance-snapshot__call a {
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+/* STEPS */
+.insurance-steps__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.insurance-steps__card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 32px;
+  text-align: center;
+  transition: var(--ease);
+}
+
+.insurance-steps__card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.insurance-steps__num {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin: 0 auto 16px;
+  font-family: var(--font-heading);
+}
+
+.insurance-steps__card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  margin-bottom: 12px;
+}
+
+.insurance-steps__card p {
+  font-size: 0.95rem;
+  color: var(--text-body);
+  line-height: 1.6;
+}
+
+/* TAILORED PROTECTION */
+.tailored__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.tailored__title {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.tailored__desc {
+  font-size: 1.05rem;
+  color: var(--text-body);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.tailored__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tailored__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.95rem;
+  color: var(--text-body);
+  line-height: 1.6;
+}
+
+.tailored__list svg {
+  color: var(--primary);
+  flex-shrink: 0;
+  margin-top: 3px;
+  font-size: 1.2rem;
+}
+
+.tailored__card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 40px;
+}
+
+.tailored__card h3 {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  margin-bottom: 8px;
+}
+
+.tailored__card p {
+  font-size: 0.95rem;
+  color: var(--text-body);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.tailored__card-details {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.tailored__card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  font-size: 0.9rem;
+}
+
+.tailored__card-row span:first-child {
+  font-weight: 700;
+  color: var(--text-heading);
+}
+
+.tailored__card-row span:last-child {
+  color: var(--text-body);
+  text-align: right;
+}
+
+.tailored__card-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.tailored__card-actions .btn {
+  flex: 1;
+}
+
+/* BENEFITS */
+.insurance-benefits__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.insurance-benefits__card {
+  background: rgba(255,255,255,0.03);
+  border-radius: var(--radius-card);
+  padding: 24px;
+}
+
+.insurance-benefits__card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  margin-bottom: 12px;
+}
+
+.insurance-benefits__card p {
+  font-size: 0.9rem;
+  color: var(--text-body);
+  line-height: 1.6;
+}
+
+/* PURCHASE FLOW */
+.flow-container {
+  max-width: 900px;
+  margin: 48px auto 0;
+}
+
+.flow-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 48px;
+  animation: fadeIn 0.4s var(--ease);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Step 1: Intro */
+.flow-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.07);
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-heading);
+  margin-bottom: 24px;
+}
+
+.flow-intro h2 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  margin-bottom: 16px;
+}
+
+.flow-intro > p {
+  font-size: 1.05rem;
+  color: var(--text-body);
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+.flow-intro__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.flow-intro__list li {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.95rem;
+  color: var(--text-body);
+}
+
+.flow-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.flow-actions {
+  display: flex;
+  gap: 16px;
+}
+
+/* Step 2: Plans */
+.plan-selection {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.plan-box {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 32px;
+  max-width: 440px;
+  text-align: center;
+}
+
+.plan-box h3 {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  margin-bottom: 12px;
+}
+
+.plan-box > p {
+  font-size: 0.9rem;
+  color: var(--text-body);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.plan-price {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 24px;
+}
+
+.price-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.price-value {
+  font-family: var(--font-heading);
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--text-heading);
+}
+
+.plan-features {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: left;
+  margin-bottom: 24px;
+}
+
+.plan-features li {
+  font-size: 0.85rem;
+  color: var(--text-body);
+  padding-left: 20px;
+  position: relative;
+}
+
+.plan-features li::before {
+  content: '•';
+  color: var(--primary);
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.plan-success {
+  margin-top: 16px;
+  background: rgba(181, 211, 0, 0.1);
+  color: var(--primary);
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.flow-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+/* Step 3: Checkout */
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 40px;
+}
+
+.checkout-grid h3 {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  margin-bottom: 24px;
+}
+
+.cart-empty {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.cart-table-wrapper {
+  overflow-x: auto;
+}
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.cart-table th {
+  text-align: left;
+  padding: 12px;
+  color: var(--text-heading);
+  border-bottom: 1px solid var(--border);
+  font-weight: 700;
+}
+
+.cart-table td {
+  padding: 16px 12px;
+  color: var(--text-body);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.qty-controls button {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-heading);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--ease);
+}
+
+.qty-controls button:hover {
+  background: var(--bg-section);
+}
+
+.btn-remove {
+  background: rgba(255,59,48,0.1);
+  color: #ff3b30;
+  border: none;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cart-total {
+  text-align: right;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  margin-top: 24px;
+}
+
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.checkout-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-body);
+}
+
+.form-group input {
+  width: 100%;
+  background: var(--bg-section);
+  border: 1.5px solid var(--border);
+  padding: 12px 16px;
+  border-radius: var(--radius-input);
+  color: var(--text-heading);
+  font-size: 0.95rem;
+  outline: none;
+  transition: var(--ease);
+}
+
+.form-group input:focus {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-input-focus);
+}
+
+.payment-options {
+  display: flex;
+  gap: 16px;
+}
+
+.payment-option {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  padding: 14px 16px;
+  border-radius: var(--radius-input);
+  cursor: pointer;
+  transition: var(--ease);
+}
+
+.payment-option:hover {
+  border-color: rgba(255,255,255,0.2);
+}
+
+.payment-option input[type="radio"] {
+  accent-color: var(--primary);
+  width: 16px;
+  height: 16px;
+}
+
+.payment-option span {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-heading);
+}
+
+.card-fields, .bitcoin-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 8px;
+  animation: fadeIn 0.3s var(--ease);
+}
+
+.bitcoin-fields p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.error-box {
+  background: rgba(255,59,48,0.1);
+  color: #ff3b30;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 16px;
+}
+
+/* Step 4: Confirmation */
+.flow-confirmation {
+  text-align: left;
+}
+
+.flow-confirmation h3 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  margin-bottom: 32px;
+}
+
+.confirmation-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.confirmation-grid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.conf-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.conf-value {
+  font-size: 1rem;
+  color: var(--text-heading);
+}
+
+.confirmation-instructions {
+  background: rgba(255,255,255,0.03);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.confirmation-instructions p {
+  font-size: 0.95rem;
+  color: var(--text-body);
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.confirmation-instructions ul {
+  list-style: disc;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.confirmation-instructions li {
+  font-size: 0.9rem;
+  color: var(--text-body);
+}
+
+.btc-address {
+  font-family: monospace;
+  color: var(--primary);
+  background: rgba(181, 211, 0, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.confirmation-instructions a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+/* CTA */
+.insurance-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 40px;
+}
+
+.insurance-cta__title {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  margin-bottom: 8px;
+}
+
+.insurance-cta__desc {
+  font-size: 0.95rem;
+  color: var(--text-body);
+  line-height: 1.7;
+}
+
+.insurance-cta__actions {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .insurance-hero__row,
+  .tailored__row,
+  .checkout-grid {
+    grid-template-columns: 1fr;
+  }
+  .insurance-steps__grid,
+  .insurance-benefits__grid {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .flow-card {
+    padding: 32px;
+  }
+  .confirmation-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .insurance-cta {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .insurance-hero__title,
+  .tailored__title {
+    font-size: 2.2rem;
+  }
+  .insurance-snapshot__grid {
+    grid-template-columns: 1fr;
+  }
+  .flow-intro__list li {
+    align-items: flex-start;
+  }
+  .checkout-form__row {
+    grid-template-columns: 1fr;
+  }
+  .payment-options {
+    flex-direction: column;
+  }
+  .flow-nav {
+    flex-direction: column-reverse;
+    gap: 16px;
+  }
+  .flow-nav .btn {
+    width: 100%;
+  }
+  .confirmation-grid {
+    grid-template-columns: 1fr;
+  }
+}

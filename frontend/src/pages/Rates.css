@@ -1,0 +1,295 @@
+/* ============================================
+   RATES PAGE — DARK THEME
+   ============================================ */
+
+/* HERO */
+.rates-hero {
+  padding: 160px 0 80px;
+  background: var(--bg);
+  text-align: center;
+}
+
+.rates-hero__badge {
+  display: inline-block;
+  background: var(--primary-tint);
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 8px 20px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 20px;
+}
+
+.rates-hero__title {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--text-heading);
+  margin-bottom: 16px;
+  line-height: 1.1;
+}
+
+.rates-hero__subtitle {
+  font-size: 1.05rem;
+  color: var(--text-body);
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.75;
+}
+
+/* TWO-COLUMN LAYOUT */
+.rates__two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.rates__col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* CARDS */
+.rates__card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 32px;
+}
+
+.rates__card-title {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-heading);
+  margin-bottom: 8px;
+}
+
+.rates__card-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+/* RATE RANGES */
+.rates__ranges {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rates__range-item {
+  background: var(--bg-section);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
+  border-radius: var(--radius-input);
+  padding: 16px;
+}
+
+.rates__range-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-body);
+  margin-bottom: 8px;
+}
+
+.rates__range-apr {
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.rates__note {
+  margin-top: 20px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-input);
+  padding: 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* CUSTOM TERMS */
+.rates__custom-card {
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-card);
+  padding: 24px;
+}
+
+.rates__custom-title {
+  font-weight: 700;
+  color: var(--text-heading);
+  margin-bottom: 6px;
+}
+
+.rates__custom-text {
+  font-size: 0.9rem;
+  color: var(--text-body);
+  line-height: 1.6;
+}
+
+.rates__phone-link {
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.rates__phone-link:hover {
+  color: var(--primary-dark);
+}
+
+/* FEE STRUCTURE */
+.rates__fees {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.rates__fee-item {
+  border-radius: var(--radius-input);
+  padding: 16px;
+}
+
+.rates__fee-item--free {
+  background: rgba(181, 211, 0, 0.08);
+  border: 1px solid rgba(181, 211, 0, 0.25);
+}
+
+.rates__fee-item--warn {
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.rates__fee-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.rates__fee-item--free .rates__fee-header {
+  color: var(--primary);
+}
+
+.rates__fee-item--warn .rates__fee-header {
+  color: #F59E0B;
+}
+
+.rates__fee-amount {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 2px;
+}
+
+.rates__fee-item--free .rates__fee-amount {
+  color: var(--primary);
+}
+
+.rates__fee-item--warn .rates__fee-amount {
+  color: #F59E0B;
+}
+
+.rates__fee-note {
+  font-size: 0.75rem;
+}
+
+.rates__fee-item--free .rates__fee-note {
+  color: var(--primary);
+}
+
+.rates__fee-item--warn .rates__fee-note {
+  color: #F59E0B;
+}
+
+/* TIPS CARD */
+.rates__tips-card {
+  background: var(--primary);
+  border-radius: var(--radius-card);
+  padding: 28px;
+}
+
+.rates__tips-title {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 16px;
+}
+
+.rates__tips-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rates__tips-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.8);
+  font-weight: 500;
+}
+
+.rates__tip-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #000;
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* BOTTOM GRID */
+.rates__bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.rates__example-text {
+  font-size: 0.95rem;
+  color: var(--text-body);
+  line-height: 1.75;
+  margin-top: 12px;
+}
+
+.rates__disclosure-text {
+  font-size: 0.9rem;
+  color: var(--text-body);
+  line-height: 1.7;
+  margin-top: 12px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .rates__two-col,
+  .rates__bottom-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .rates-hero__title {
+    font-size: 2.2rem;
+  }
+}
