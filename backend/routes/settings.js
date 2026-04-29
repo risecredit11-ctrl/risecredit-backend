@@ -14,47 +14,62 @@ router.post('/verify', async (req, res) => {
     const { password: rawPassword } = req.body;
     const password = rawPassword ? rawPassword.trim() : '';
     
-    let passSetting;
-    try {
-        passSetting = await Settings.findOne({ key: 'adminPassword' });
-    } catch (dbErr) {
-        console.error('❌ DB Error during verify:', dbErr.message);
+    if (!password) {
+        return res.status(400).json({ success: false, message: 'Password is required' });
     }
-    
-    let correctPassword;
-    let isHashed = false;
 
+    let passSetting = await Settings.findOne({ key: 'adminPassword' });
+    let correctPassword;
+    
     if (passSetting) {
-      console.log('🔍 Checking password against Database setting');
       correctPassword = passSetting.value;
-      isHashed = correctPassword.startsWith('$2');
     } else {
-      console.log('🔍 Checking password against .env/Environment Variable');
-      correctPassword = (process.env.ADMIN_PASSWORD || 'Risecredit@#11').trim();
-      isHashed = false;
+      // Fallback to environment variable ONLY (No hardcoded passwords in code!)
+      correctPassword = process.env.ADMIN_PASSWORD;
+      
+      if (!correctPassword) {
+          console.error('❌ CRITICAL: No admin password set in DB or Environment Variables!');
+          return res.status(500).json({ success: false, message: 'Server configuration error' });
+      }
     }
     
-    // TEMPORARY: Disable hashing to fix login issue
-    const isMatch = (password === correctPassword);
-    
-    if (!isMatch) {
-      const inputInfo = `len:${password.length}, first:${password[0] || 'NONE'}, last:${password[password.length-1] || 'NONE'}`;
-      const targetInfo = `len:${correctPassword.length}, first:${correctPassword[0]}, last:${correctPassword[correctPassword.length-1]}`;
-      console.log(`❌ Mismatch Detail: Input(${inputInfo}) vs Target(${targetInfo})`);
+    // Check if the stored password is a bcrypt hash
+    const isHashed = correctPassword.startsWith('$2');
+    let isMatch = false;
+
+    if (isHashed) {
+      isMatch = await bcrypt.compare(password, correctPassword);
+    } else {
+      // Plain text comparison (for initial setup/migration)
+      isMatch = (password === correctPassword);
+      
+      // AUTO-MIGRATION: If plain text matches, hash it immediately for future security
+      if (isMatch) {
+        console.log('🛡️ Auto-migrating plain-text password to secure hash...');
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        
+        if (passSetting) {
+          passSetting.value = hashedPassword;
+          await passSetting.save();
+        } else {
+          await new Settings({ key: 'adminPassword', value: hashedPassword }).save();
+        }
+        console.log('✅ Password secured successfully.');
+      }
     }
     
     if (isMatch) {
-      console.log('✅ Admin login successful (Plain Text)');
-      const secret = process.env.JWT_SECRET || 'fallback_secret_123';
-      const token = jwt.sign({ id: 'admin' }, secret, { expiresIn: '2h' });
+      console.log('✅ Admin login successful');
+      const secret = process.env.JWT_SECRET || 'rise_credit_default_secure_key_2024';
+      const token = jwt.sign({ id: 'admin' }, secret, { expiresIn: '4h' });
       res.json({ success: true, token, message: 'Authenticated' });
     } else {
-      console.warn('❌ Admin login failed: Incorrect password');
       res.status(401).json({ success: false, message: 'Invalid password' });
     }
   } catch (error) {
-    console.error('VERIFY_FATAL:', error);
-    res.status(500).json({ success: false, message: 'VERIFY_FATAL: ' + error.message });
+    console.error('VERIFY_ERROR:', error);
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 });
 
@@ -80,10 +95,9 @@ router.post('/password', auth, async (req, res) => {
     
     await passSetting.save();
     
-    // Update .env file (we keep the plain text in .env for recovery, but DB is hashed)
+    // Update .env file for environment variable consistency
     try {
       const envPath = path.resolve(__dirname, '..', '.env');
-      
       if (fs.existsSync(envPath)) {
         const envContent = fs.readFileSync(envPath, 'utf8');
         const lines = envContent.split(/\r?\n/);
@@ -97,10 +111,7 @@ router.post('/password', auth, async (req, res) => {
           return line;
         });
         
-        if (!found) {
-          updatedLines.push(`ADMIN_PASSWORD=${newPassword}`);
-        }
-        
+        if (!found) updatedLines.push(`ADMIN_PASSWORD=${newPassword}`);
         fs.writeFileSync(envPath, updatedLines.join('\n'), 'utf8');
         process.env.ADMIN_PASSWORD = newPassword;
       }
@@ -111,7 +122,7 @@ router.post('/password', auth, async (req, res) => {
     res.json({ success: true, message: 'Password updated and secured successfully' });
   } catch (error) {
     console.error('PASSWORD_UPDATE_FATAL:', error);
-    res.status(500).json({ success: false, message: 'UPDATE_FATAL: ' + error.message });
+    res.status(500).json({ success: false, message: 'Internal server error' });
   }
 });
 
