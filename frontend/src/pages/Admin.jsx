@@ -10,7 +10,8 @@ function Admin() {
     applications: [],
     contacts: [],
     insurance: [],
-    newsletters: []
+    newsletters: [],
+    auditLogs: []
   });
   const [loading, setLoading] = useState(true);
 
@@ -33,18 +34,20 @@ function Admin() {
     try {
       const headers = { 'Authorization': `Bearer ${sessionStorage.getItem('adminToken')}` };
       const API_BASE = 'https://risecredit-api.onrender.com/api';
-      const [appRes, contactRes, insRes, newsRes] = await Promise.all([
+      const [appRes, contactRes, insRes, newsRes, logRes] = await Promise.all([
         fetch(`${API_BASE}/apply`, { headers }).then(res => res.json()),
         fetch(`${API_BASE}/contact`, { headers }).then(res => res.json()),
         fetch(`${API_BASE}/insurance`, { headers }).then(res => res.json()),
-        fetch(`${API_BASE}/newsletter`, { headers }).then(res => res.json())
+        fetch(`${API_BASE}/newsletter`, { headers }).then(res => res.json()),
+        fetch(`${API_BASE}/settings/logs`, { headers }).then(res => res.json())
       ]);
 
       setData({
         applications: Array.isArray(appRes) ? appRes : [],
         contacts: Array.isArray(contactRes) ? contactRes : [],
         insurance: Array.isArray(insRes) ? insRes : [],
-        newsletters: Array.isArray(newsRes) ? newsRes : []
+        newsletters: Array.isArray(newsRes) ? newsRes : [],
+        auditLogs: Array.isArray(logRes) ? logRes : []
       });
     } catch (err) {
       console.error('Error fetching admin data:', err);
@@ -177,6 +180,12 @@ function Admin() {
             Newsletter Subs ({data.newsletters.length})
           </button>
           <button 
+            className={`admin-tab ${activeTab === 'auditLogs' ? 'active' : ''}`}
+            onClick={() => setActiveTab('auditLogs')}
+          >
+            Security Logs ({data.auditLogs.length})
+          </button>
+          <button 
             className={`admin-tab ${activeTab === 'settings' ? 'active' : ''}`}
             onClick={() => setActiveTab('settings')}
           >
@@ -184,13 +193,21 @@ function Admin() {
           </button>
         </div>
 
-        {activeTab !== 'settings' && (
+        {activeTab !== 'settings' && activeTab !== 'auditLogs' && (
           <div className="admin-actions">
             <button onClick={downloadExcel} className="btn btn-primary">
               Download as Excel
             </button>
             <button onClick={fetchData} className="btn btn-outline">
               Refresh Data
+            </button>
+          </div>
+        )}
+
+        {activeTab === 'auditLogs' && (
+          <div className="admin-actions">
+            <button onClick={fetchData} className="btn btn-outline">
+              Refresh Logs
             </button>
           </div>
         )}
