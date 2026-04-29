@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiArrowRight, FiClock, FiDollarSign, FiMapPin, FiSend, FiShield, FiCheckCircle } from 'react-icons/fi';
+import { Helmet } from 'react-helmet-async';
 import './Apply.css';
 
 function Apply() {
@@ -28,6 +29,10 @@ function Apply() {
   };
 
   return (<>
+    <Helmet>
+      <title>Apply Online | Rise Credit</title>
+      <meta name="description" content="Apply online for the cash you need, right now. Fast approval and same-day funding available at Rise Credit." />
+    </Helmet>
     {/* ===== HERO ===== */}
     <section className="apply-hero" id="apply-hero">
       <div className="container apply-hero__row">

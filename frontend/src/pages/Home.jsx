@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { FiCheck, FiArrowRight, FiStar, FiClock, FiShield, FiDollarSign, FiCreditCard, FiTrendingUp, FiPercent, FiMapPin } from 'react-icons/fi';
+import { Helmet } from 'react-helmet-async';
 import './Home.css';
 
 function useInView() {
@@ -22,6 +23,10 @@ function Home() {
   const [sR, sV] = useInView(), [fR, fV] = useInView(), [rR, rV] = useInView(), [lR, lV] = useInView(), [cR, cV] = useInView();
 
   return (<>
+    <Helmet>
+      <title>Rise Credit - Fast, Easy Loans</title>
+      <meta name="description" content="Fast, easy loans. Get approved in minutes with same-day funding. Installment loans, payday loans, cash advances and more." />
+    </Helmet>
     {/* ===== HERO ===== */}
     <section className="hero" id="hero-section">
       <div className="hero__inner container">

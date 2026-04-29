@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FiArrowRight, FiCheck, FiPhone } from 'react-icons/fi';
+import { Helmet } from 'react-helmet-async';
 import './Rates.css';
 
 const rateRanges = [
@@ -24,6 +25,10 @@ const tips = [
 
 function Rates() {
   return (<>
+    <Helmet>
+      <title>Rates & Pricing | Rise Credit</title>
+      <meta name="description" content="View our transparent pricing and rates. No hidden fees. Get the exact loan terms you need with Rise Credit." />
+    </Helmet>
     {/* HERO */}
     <section className="rates-hero" id="rates-hero">
       <div className="container rates-hero__inner">

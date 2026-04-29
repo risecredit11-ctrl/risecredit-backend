@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { FiCheckCircle, FiShield, FiClock, FiPlusCircle } from 'react-icons/fi';
+import { Helmet } from 'react-helmet-async';
 import './CreditInsurance.css';
 
 function CreditInsurance() {
@@ -106,6 +107,10 @@ function CreditInsurance() {
 
   return (
     <>
+      <Helmet>
+        <title>Credit Insurance | Rise Credit</title>
+        <meta name="description" content="Protect your loan when life takes an unexpected turn. Buy credit insurance in minutes." />
+      </Helmet>
       {/* ===== HERO ===== */}
       <section className="insurance-hero">
         <div className="container insurance-hero__row">

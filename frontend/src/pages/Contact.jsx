@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { FiPhone, FiMail, FiMapPin, FiSend } from 'react-icons/fi';
+import { Helmet } from 'react-helmet-async';
 import './Contact.css';
 
 function Contact() {
@@ -41,6 +42,10 @@ function Contact() {
 
   return (
     <>
+      <Helmet>
+        <title>Contact Us | Rise Credit</title>
+        <meta name="description" content="Reach out to our team anytime. Expert support for every step of your journey. Contact us via phone, email, or find a local branch." />
+      </Helmet>
       <section className="contact-hero">
         <div className="container">
           <div className="contact-hero__content">

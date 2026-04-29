@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { FiArrowRight, FiCreditCard, FiSmartphone, FiShoppingBag } from 'react-icons/fi';
+import { Helmet } from 'react-helmet-async';
 import './Partners.css';
 
 const partners = [
@@ -27,6 +28,10 @@ const partners = [
 
 function Partners() {
   return (<>
+    <Helmet>
+      <title>Financial Partners | Rise Credit</title>
+      <meta name="description" content="Rise Credit works with leading banks, card networks, and digital wallets to make sure your funds arrive quickly and securely." />
+    </Helmet>
     {/* ===== HERO ===== */}
     <section className="partners-hero" id="partners-hero">
       <div className="container partners-hero__row">
