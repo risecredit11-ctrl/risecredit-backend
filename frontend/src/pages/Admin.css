@@ -4,10 +4,24 @@
   background: var(--bg);
 }
 
-.admin-header {
+.admin-header-flex {
   padding: 40px 0;
   background: var(--bg-soft);
   border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 24px;
+}
+
+@media (max-width: 768px) {
+  .admin-header-flex {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
 }
 
 .admin-header h1 {
@@ -27,28 +41,59 @@
   padding: 40px 16px;
 }
 
+@media (max-width: 768px) {
+  .admin-page {
+    padding-top: 80px;
+  }
+  .admin-header {
+    padding: 30px 0;
+  }
+  .admin-header h1 {
+    font-size: 1.8rem;
+  }
+  .admin-header p {
+    font-size: 0.95rem;
+  }
+  .admin-container {
+    padding: 24px 12px;
+  }
+}
+
 .admin-tabs {
   display: flex;
-  gap: 12px;
-  margin-bottom: 32px;
-  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.admin-tabs::-webkit-scrollbar {
+  height: 4px;
+}
+
+.admin-tabs::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
 }
 
 .admin-tab {
   background: var(--surface);
   border: 1px solid var(--border);
   color: var(--text-heading);
-  padding: 12px 24px;
+  padding: 10px 20px;
   border-radius: var(--radius-pill);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: var(--ease);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .admin-tab:hover {
   background: var(--bg-section);
-  border-color: rgba(255,255,255,0.2);
 }
 
 .admin-tab.active {
@@ -59,8 +104,18 @@
 
 .admin-actions {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   margin-bottom: 24px;
+}
+
+@media (max-width: 600px) {
+  .admin-actions {
+    flex-direction: column;
+  }
+  .admin-actions .btn {
+    width: 100%;
+    text-align: center;
+  }
 }
 
 .admin-content {
@@ -103,12 +158,17 @@
 }
 
 .admin-table td {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--text-body);
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.admin-table tr:hover td {
-  background: rgba(255,255,255,0.02);
+@media (max-width: 768px) {
+  .admin-table th, .admin-table td {
+    padding: 12px 14px;
+  }
 }
 
 .admin-settings {

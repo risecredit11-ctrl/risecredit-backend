@@ -15,13 +15,18 @@ function Admin() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Prevent manual URL access
     if (!sessionStorage.getItem('adminToken')) {
       navigate('/');
       return;
     }
     fetchData();
   }, [navigate]);
+
+  const handleLogout = () => {
+    sessionStorage.removeItem('adminToken');
+    sessionStorage.removeItem('isAdminAuthenticated');
+    navigate('/');
+  };
 
   const fetchData = async () => {
     setLoading(true);
@@ -135,12 +140,15 @@ function Admin() {
 
   return (
     <div className="admin-page">
-      <div className="admin-header">
-        <div className="container">
-          <h1>Admin Dashboard</h1>
-          <p>Manage all form submissions across the platform.</p>
+        <div className="admin-header-flex">
+          <div className="container">
+            <h1>Admin Dashboard</h1>
+            <p>Manage all form submissions across the platform.</p>
+          </div>
+          <button onClick={handleLogout} className="btn btn-outline btn-small logout-btn">
+            Log Out
+          </button>
         </div>
-      </div>
 
       <div className="container admin-container">
         <div className="admin-tabs">
