@@ -35,7 +35,12 @@ router.post('/verify', async (req, res) => {
     } else {
       isMatch = (password === correctPassword);
       
-      // Auto-migrate to hash
+      if (!isMatch) {
+        console.log(`❌ Mismatch: input(${password.length}) vs target(${correctPassword.length})`);
+      }
+      
+      // Auto-migrate to hash (DISABLED TEMPORARILY TO DEBUG)
+      /*
       if (isMatch) {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -47,6 +52,7 @@ router.post('/verify', async (req, res) => {
         }
         console.log('✅ Migrated plain text password to bcrypt hash');
       }
+      */
     }
     
     if (isMatch) {
