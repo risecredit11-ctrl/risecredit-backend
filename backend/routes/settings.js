@@ -40,7 +40,8 @@ router.post('/verify', async (req, res) => {
     
     if (isMatch) {
       console.log('✅ Admin login successful (Plain Text)');
-      const token = jwt.sign({ id: 'admin' }, process.env.JWT_SECRET, { expiresIn: '2h' });
+      const secret = process.env.JWT_SECRET || 'fallback_secret_123';
+      const token = jwt.sign({ id: 'admin' }, secret, { expiresIn: '2h' });
       res.json({ success: true, token, message: 'Authenticated' });
     } else {
       console.warn('❌ Admin login failed: Incorrect password');
