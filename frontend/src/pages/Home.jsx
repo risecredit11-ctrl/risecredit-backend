@@ -24,7 +24,7 @@ function Home() {
 
   return (<>
     <Helmet>
-      <title>Rise Credit - Fast, Easy Loans</title>
+      <title>Rise Credit: Fast, Easy Online Loans & Cash Advances</title>
       <meta name="description" content="Fast, easy loans. Get approved in minutes with same-day funding. Installment loans, payday loans, cash advances and more." />
     </Helmet>
     {/* ===== HERO ===== */}
