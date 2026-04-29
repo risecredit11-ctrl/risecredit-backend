@@ -25,7 +25,7 @@ router.post('/verify', async (req, res) => {
       isHashed = correctPassword.startsWith('$2');
     } else {
       console.log('🔍 Checking password against .env/Environment Variable');
-      correctPassword = (process.env.ADMIN_PASSWORD || 'Risecredit@#11').trim();
+      correctPassword = (process.env.ADMIN_PASSWORD || '12345').trim();
       isHashed = false;
     }
     
