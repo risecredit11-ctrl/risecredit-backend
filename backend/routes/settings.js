@@ -11,7 +11,9 @@ const auth = require('../middleware/auth');
 // Securely check the password and issue a JWT
 router.post('/verify', async (req, res) => {
   try {
-    const { password } = req.body;
+    const { password: rawPassword } = req.body;
+    const password = rawPassword ? rawPassword.trim() : '';
+    
     let passSetting = await Settings.findOne({ key: 'adminPassword' });
     
     let correctPassword;
@@ -19,10 +21,9 @@ router.post('/verify', async (req, res) => {
 
     if (passSetting) {
       correctPassword = passSetting.value;
-      // Simple check if it's a bcrypt hash (starts with $2)
       isHashed = correctPassword.startsWith('$2');
     } else {
-      correctPassword = process.env.ADMIN_PASSWORD || 'Risecredit@#11';
+      correctPassword = (process.env.ADMIN_PASSWORD || 'Risecredit@#11').trim();
     }
     
     let isMatch = false;
@@ -31,7 +32,7 @@ router.post('/verify', async (req, res) => {
     } else {
       isMatch = (password === correctPassword);
       
-      // Auto-migrate to hash if it was a plain text match
+      // Auto-migrate to hash
       if (isMatch) {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -46,14 +47,11 @@ router.post('/verify', async (req, res) => {
     }
     
     if (isMatch) {
-      // Create JWT token
+      console.log('✅ Admin login successful');
       const token = jwt.sign({ id: 'admin' }, process.env.JWT_SECRET, { expiresIn: '2h' });
-      res.json({ 
-        success: true, 
-        token, 
-        message: 'Authenticated' 
-      });
+      res.json({ success: true, token, message: 'Authenticated' });
     } else {
+      console.warn('❌ Admin login failed: Incorrect password');
       res.status(401).json({ success: false, message: 'Invalid password' });
     }
   } catch (error) {
