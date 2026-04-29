@@ -1,0 +1,20 @@
+/*
+  # — Content Security Policy —
+  # Whitelists: self, Google Fonts, Render backend API, inline styles (for React)
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://risecredit-api.onrender.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'
+
+  # — Clickjacking Protection —
+  X-Frame-Options: SAMEORIGIN
+
+  # — Prevent MIME Sniffing —
+  X-Content-Type-Options: nosniff
+
+  # — Referrer Policy —
+  Referrer-Policy: strict-origin-when-cross-origin
+
+  # — Permissions Policy —
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()
+
+  # — Cross-Origin Policies (bonus headers) —
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
