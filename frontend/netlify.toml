@@ -12,7 +12,7 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()"
     Cross-Origin-Opener-Policy = "same-origin"
-    Cross-Origin-Resource-Policy = "same-origin"
+    Cross-Origin-Resource-Policy = "cross-origin"
 
 # Forward all /api requests to the live Render backend
 [[redirects]]

@@ -17,4 +17,4 @@
 
   # — Cross-Origin Policies (bonus headers) —
   Cross-Origin-Opener-Policy: same-origin
-  Cross-Origin-Resource-Policy: same-origin
+  Cross-Origin-Resource-Policy: cross-origin
