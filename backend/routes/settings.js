@@ -29,34 +29,15 @@ router.post('/verify', async (req, res) => {
       isHashed = false;
     }
     
-    let isMatch = false;
-    if (isHashed) {
-      isMatch = await bcrypt.compare(password, correctPassword);
-    } else {
-      isMatch = (password === correctPassword);
-      
-      if (!isMatch) {
-        console.log(`❌ Mismatch: input(${password.length}) vs target(${correctPassword.length})`);
-      }
-      
-      // Auto-migrate to hash (DISABLED TEMPORARILY TO DEBUG)
-      /*
-      if (isMatch) {
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-        if (passSetting) {
-          passSetting.value = hashedPassword;
-          await passSetting.save();
-        } else {
-          await new Settings({ key: 'adminPassword', value: hashedPassword }).save();
-        }
-        console.log('✅ Migrated plain text password to bcrypt hash');
-      }
-      */
+    // TEMPORARY: Disable hashing to fix login issue
+    const isMatch = (password === correctPassword);
+    
+    if (!isMatch) {
+      console.log(`❌ Mismatch: input(${password.length}:"${password}") vs target(${correctPassword.length})`);
     }
     
     if (isMatch) {
-      console.log('✅ Admin login successful');
+      console.log('✅ Admin login successful (Plain Text)');
       const token = jwt.sign({ id: 'admin' }, process.env.JWT_SECRET, { expiresIn: '2h' });
       res.json({ success: true, token, message: 'Authenticated' });
     } else {
