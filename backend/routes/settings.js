@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Settings = require('../models/Settings');
+const fs = require('fs');
+const path = require('path');
 
 // POST /api/settings/verify
 // Securely check the password on the server side
@@ -39,6 +41,42 @@ router.post('/password', async (req, res) => {
     }
     
     await passSetting.save();
+    
+    // Update .env file
+    try {
+      // Use path.resolve for absolute path consistency
+      const envPath = path.resolve(__dirname, '..', '.env');
+      
+      if (fs.existsSync(envPath)) {
+        const envContent = fs.readFileSync(envPath, 'utf8');
+        const lines = envContent.split(/\r?\n/);
+        let found = false;
+        
+        const updatedLines = lines.map(line => {
+          if (line.trim().startsWith('ADMIN_PASSWORD=')) {
+            found = true;
+            return `ADMIN_PASSWORD=${newPassword}`;
+          }
+          return line;
+        });
+        
+        if (!found) {
+          updatedLines.push(`ADMIN_PASSWORD=${newPassword}`);
+        }
+        
+        // Write back to .env
+        fs.writeFileSync(envPath, updatedLines.join('\n'), 'utf8');
+        
+        // Update the current process env so it's immediate
+        process.env.ADMIN_PASSWORD = newPassword;
+        console.log(`✅ Successfully synced password to ${envPath}`);
+      } else {
+        console.warn(`⚠️ .env file not found at ${envPath}`);
+      }
+    } catch (envError) {
+      console.error('❌ Error updating .env file:', envError.message);
+    }
+
     res.json({ success: true, message: 'Password updated successfully' });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
