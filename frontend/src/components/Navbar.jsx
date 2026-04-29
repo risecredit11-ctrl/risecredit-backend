@@ -41,11 +41,14 @@ function Navbar() {
       const password = window.prompt("Admin Access - Enter Password:");
       if (password !== null) {
         try {
-          const res = await fetch('/api/settings/password');
+          const res = await fetch('/api/settings/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password })
+          });
           const data = await res.json();
-          const correctPassword = data.password || 'admin123';
           
-          if (password === correctPassword) {
+          if (data.success) {
             sessionStorage.setItem('isAdminAuthenticated', 'true');
             navigate('/admin');
           } else {

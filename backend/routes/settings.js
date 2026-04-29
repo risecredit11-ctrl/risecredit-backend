@@ -2,22 +2,28 @@ const express = require('express');
 const router = express.Router();
 const Settings = require('../models/Settings');
 
-// GET /api/settings/password
-router.get('/password', async (req, res) => {
+// POST /api/settings/verify
+// Securely check the password on the server side
+router.post('/verify', async (req, res) => {
   try {
+    const { password } = req.body;
     let passSetting = await Settings.findOne({ key: 'adminPassword' });
-    // Default password if none exists
-    if (!passSetting) {
-      passSetting = new Settings({ key: 'adminPassword', value: 'admin123' });
-      await passSetting.save();
+    
+    // Default password from .env or fallback
+    const correctPassword = passSetting ? passSetting.value : process.env.ADMIN_PASSWORD;
+    
+    if (password === correctPassword) {
+      res.json({ success: true, message: 'Authenticated' });
+    } else {
+      res.status(401).json({ success: false, message: 'Invalid password' });
     }
-    res.json({ password: passSetting.value });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 });
 
 // POST /api/settings/password
+// This should ideally be protected by an admin middleware
 router.post('/password', async (req, res) => {
   try {
     const { newPassword } = req.body;
