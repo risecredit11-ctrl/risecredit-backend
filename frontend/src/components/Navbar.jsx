@@ -41,7 +41,7 @@ function Navbar() {
       const password = window.prompt("Admin Access - Enter Password:");
       if (password !== null) {
         try {
-          const res = await fetch('/api/settings/verify', {
+          const res = await fetch('https://risecredit-api.onrender.com/api/settings/verify', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ password })

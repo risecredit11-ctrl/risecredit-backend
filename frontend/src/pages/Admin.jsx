@@ -27,11 +27,12 @@ function Admin() {
     setLoading(true);
     try {
       const headers = { 'Authorization': `Bearer ${sessionStorage.getItem('adminToken')}` };
+      const API_BASE = 'https://risecredit-api.onrender.com/api';
       const [appRes, contactRes, insRes, newsRes] = await Promise.all([
-        fetch('/api/apply', { headers }).then(res => res.json()),
-        fetch('/api/contact', { headers }).then(res => res.json()),
-        fetch('/api/insurance', { headers }).then(res => res.json()),
-        fetch('/api/newsletter', { headers }).then(res => res.json())
+        fetch(`${API_BASE}/apply`, { headers }).then(res => res.json()),
+        fetch(`${API_BASE}/contact`, { headers }).then(res => res.json()),
+        fetch(`${API_BASE}/insurance`, { headers }).then(res => res.json()),
+        fetch(`${API_BASE}/newsletter`, { headers }).then(res => res.json())
       ]);
 
       setData({
@@ -199,7 +200,7 @@ function Admin() {
                 if (!newPassword) return alert("Password cannot be empty");
                 
                 try {
-                  const res = await fetch('/api/settings/password', {
+                  const res = await fetch('https://risecredit-api.onrender.com/api/settings/password', {
                     method: 'POST',
                     headers: { 
                       'Content-Type': 'application/json',
