@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FiMenu, FiX } from 'react-icons/fi';
+import AdminLoginModal from './AdminLoginModal';
 import './Navbar.css';
 
 const navLinks = [
@@ -16,6 +17,7 @@ function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [logoClickCount, setLogoClickCount] = useState(0);
+  const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -28,39 +30,41 @@ function Navbar() {
   useEffect(() => { setIsOpen(false); }, [location]);
 
   useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : '';
+    document.body.style.overflow = (isOpen || isAdminModalOpen) ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
-  }, [isOpen]);
+  }, [isOpen, isAdminModalOpen]);
 
-  const handleLogoClick = async (e) => {
+  const handleLogoClick = (e) => {
     const newCount = logoClickCount + 1;
     setLogoClickCount(newCount);
     
     if (newCount >= 8) {
-      e.preventDefault(); // Stop normal navigation
-      const password = window.prompt("Admin Access - Enter Password:");
-      if (password !== null) {
-        try {
-          const res = await fetch('https://risecredit-api.onrender.com/api/settings/verify', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password })
-          });
-          const data = await res.json();
-          
-          if (data.success) {
-            sessionStorage.setItem('isAdminAuthenticated', 'true');
-            sessionStorage.setItem('adminToken', data.token);
-            navigate('/admin');
-          } else {
-            alert("Access Denied: Incorrect password.");
-          }
-        } catch (err) {
-          console.error('Failed to verify password:', err);
-          alert("Error verifying password. Please try again.");
-        }
+      e.preventDefault(); 
+      setIsAdminModalOpen(true);
+      setLogoClickCount(0); 
+    }
+  };
+
+  const verifyAdminPassword = async (password) => {
+    try {
+      const res = await fetch('https://risecredit-api.onrender.com/api/settings/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      });
+      const data = await res.json();
+      
+      if (data.success) {
+        sessionStorage.setItem('isAdminAuthenticated', 'true');
+        sessionStorage.setItem('adminToken', data.token);
+        setIsAdminModalOpen(false);
+        navigate('/admin');
+        return true;
       }
-      setLogoClickCount(0); // Reset counter
+      return false;
+    } catch (err) {
+      console.error('Failed to verify password:', err);
+      return false;
     }
   };
 
@@ -102,6 +106,12 @@ function Navbar() {
       </div>
 
       {isOpen && <div className="navbar__overlay" onClick={() => setIsOpen(false)} />}
+      
+      <AdminLoginModal 
+        isOpen={isAdminModalOpen} 
+        onClose={() => setIsAdminModalOpen(false)} 
+        onVerify={verifyAdminPassword}
+      />
     </header>
   );
 }
