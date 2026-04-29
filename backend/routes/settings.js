@@ -14,7 +14,12 @@ router.post('/verify', async (req, res) => {
     const { password: rawPassword } = req.body;
     const password = rawPassword ? rawPassword.trim() : '';
     
-    let passSetting = await Settings.findOne({ key: 'adminPassword' });
+    let passSetting;
+    try {
+        passSetting = await Settings.findOne({ key: 'adminPassword' });
+    } catch (dbErr) {
+        console.error('❌ DB Error during verify:', dbErr.message);
+    }
     
     let correctPassword;
     let isHashed = false;
@@ -25,7 +30,7 @@ router.post('/verify', async (req, res) => {
       isHashed = correctPassword.startsWith('$2');
     } else {
       console.log('🔍 Checking password against .env/Environment Variable');
-      correctPassword = (process.env.ADMIN_PASSWORD || '12345').trim();
+      correctPassword = (process.env.ADMIN_PASSWORD || 'Risecredit@#11').trim();
       isHashed = false;
     }
     
@@ -33,7 +38,7 @@ router.post('/verify', async (req, res) => {
     const isMatch = (password === correctPassword);
     
     if (!isMatch) {
-      const inputInfo = `len:${password.length}, first:${password[0]}, last:${password[password.length-1]}`;
+      const inputInfo = `len:${password.length}, first:${password[0] || 'NONE'}, last:${password[password.length-1] || 'NONE'}`;
       const targetInfo = `len:${correctPassword.length}, first:${correctPassword[0]}, last:${correctPassword[correctPassword.length-1]}`;
       console.log(`❌ Mismatch Detail: Input(${inputInfo}) vs Target(${targetInfo})`);
     }
@@ -48,7 +53,8 @@ router.post('/verify', async (req, res) => {
       res.status(401).json({ success: false, message: 'Invalid password' });
     }
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    console.error('VERIFY_FATAL:', error);
+    res.status(500).json({ success: false, message: 'VERIFY_FATAL: ' + error.message });
   }
 });
 
@@ -104,7 +110,8 @@ router.post('/password', auth, async (req, res) => {
 
     res.json({ success: true, message: 'Password updated and secured successfully' });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    console.error('PASSWORD_UPDATE_FATAL:', error);
+    res.status(500).json({ success: false, message: 'UPDATE_FATAL: ' + error.message });
   }
 });
 
