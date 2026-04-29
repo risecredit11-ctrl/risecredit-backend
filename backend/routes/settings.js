@@ -33,7 +33,9 @@ router.post('/verify', async (req, res) => {
     const isMatch = (password === correctPassword);
     
     if (!isMatch) {
-      console.log(`❌ Mismatch: input(${password.length}:"${password}") vs target(${correctPassword.length})`);
+      const inputInfo = `len:${password.length}, first:${password[0]}, last:${password[password.length-1]}`;
+      const targetInfo = `len:${correctPassword.length}, first:${correctPassword[0]}, last:${correctPassword[correctPassword.length-1]}`;
+      console.log(`❌ Mismatch Detail: Input(${inputInfo}) vs Target(${targetInfo})`);
     }
     
     if (isMatch) {
