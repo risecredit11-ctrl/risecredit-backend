@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Newsletter = require('../models/Newsletter');
 
-// POST /api/newsletter
+const auth = require('../middleware/auth');
+
+// POST /api/newsletter (Public)
 router.post('/', async (req, res) => {
   try {
     const newsletter = new Newsletter(req.body);
@@ -16,8 +18,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-// GET /api/newsletter
-router.get('/', async (req, res) => {
+// GET /api/newsletter (Protected)
+router.get('/', auth, async (req, res) => {
   try {
     const subscribers = await Newsletter.find().sort({ createdAt: -1 });
     res.json(subscribers);
@@ -26,8 +28,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-// DELETE /api/newsletter/:id
-router.delete('/:id', async (req, res) => {
+// DELETE /api/newsletter/:id (Protected)
+router.delete('/:id', auth, async (req, res) => {
   try {
     const deleted = await Newsletter.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ message: 'Subscriber not found' });

@@ -16,7 +16,7 @@ function Admin() {
 
   useEffect(() => {
     // Prevent manual URL access
-    if (sessionStorage.getItem('isAdminAuthenticated') !== 'true') {
+    if (!sessionStorage.getItem('adminToken')) {
       navigate('/');
       return;
     }
@@ -26,11 +26,12 @@ function Admin() {
   const fetchData = async () => {
     setLoading(true);
     try {
+      const headers = { 'Authorization': `Bearer ${sessionStorage.getItem('adminToken')}` };
       const [appRes, contactRes, insRes, newsRes] = await Promise.all([
-        fetch('/api/apply').then(res => res.json()),
-        fetch('/api/contact').then(res => res.json()),
-        fetch('/api/insurance').then(res => res.json()),
-        fetch('/api/newsletter').then(res => res.json())
+        fetch('/api/apply', { headers }).then(res => res.json()),
+        fetch('/api/contact', { headers }).then(res => res.json()),
+        fetch('/api/insurance', { headers }).then(res => res.json()),
+        fetch('/api/newsletter', { headers }).then(res => res.json())
       ]);
 
       setData({
@@ -72,7 +73,10 @@ function Admin() {
     else if (activeTab === 'newsletters') endpoint = '/api/newsletter';
 
     try {
-      const res = await fetch(`${endpoint}/${id}`, { method: 'DELETE' });
+      const res = await fetch(`${endpoint}/${id}`, { 
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${sessionStorage.getItem('adminToken')}` }
+      });
       const result = await res.json();
       if (result.success) {
         fetchData(); // Refresh data after successful deletion
@@ -197,7 +201,10 @@ function Admin() {
                 try {
                   const res = await fetch('/api/settings/password', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                      'Content-Type': 'application/json',
+                      'Authorization': `Bearer ${sessionStorage.getItem('adminToken')}`
+                    },
                     body: JSON.stringify({ newPassword })
                   });
                   const data = await res.json();

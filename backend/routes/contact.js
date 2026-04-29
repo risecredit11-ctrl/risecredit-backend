@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Contact = require('../models/Contact');
 
-// POST /api/contact
+const auth = require('../middleware/auth');
+
+// POST /api/contact (Public)
 router.post('/', async (req, res) => {
   try {
     const contact = new Contact(req.body);
@@ -13,8 +15,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-// GET /api/contact
-router.get('/', async (req, res) => {
+// GET /api/contact (Protected)
+router.get('/', auth, async (req, res) => {
   try {
     const contacts = await Contact.find().sort({ createdAt: -1 });
     res.json(contacts);
@@ -23,8 +25,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-// DELETE /api/contact/:id
-router.delete('/:id', async (req, res) => {
+// DELETE /api/contact/:id (Protected)
+router.delete('/:id', auth, async (req, res) => {
   try {
     const deleted = await Contact.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ message: 'Message not found' });

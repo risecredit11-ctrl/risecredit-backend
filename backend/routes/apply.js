@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Application = require('../models/Application');
 
-// POST /api/apply
+const auth = require('../middleware/auth');
+
+// POST /api/apply (Public)
 router.post('/', async (req, res) => {
   try {
     const application = new Application(req.body);
@@ -13,8 +15,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-// GET /api/apply
-router.get('/', async (req, res) => {
+// GET /api/apply (Protected)
+router.get('/', auth, async (req, res) => {
   try {
     const applications = await Application.find().sort({ createdAt: -1 });
     res.json(applications);
@@ -23,8 +25,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /api/apply/:id
-router.get('/:id', async (req, res) => {
+// GET /api/apply/:id (Protected)
+router.get('/:id', auth, async (req, res) => {
   try {
     const application = await Application.findById(req.params.id);
     if (!application) return res.status(404).json({ message: 'Application not found' });
@@ -34,8 +36,8 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// DELETE /api/apply/:id
-router.delete('/:id', async (req, res) => {
+// DELETE /api/apply/:id (Protected)
+router.delete('/:id', auth, async (req, res) => {
   try {
     const deleted = await Application.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ message: 'Application not found' });

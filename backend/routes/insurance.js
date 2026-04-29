@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const InsuranceOrder = require('../models/InsuranceOrder');
 
-// POST /api/insurance
+const auth = require('../middleware/auth');
+
+// POST /api/insurance (Public)
 router.post('/', async (req, res) => {
   try {
     const order = new InsuranceOrder(req.body);
@@ -13,8 +15,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-// GET /api/insurance
-router.get('/', async (req, res) => {
+// GET /api/insurance (Protected)
+router.get('/', auth, async (req, res) => {
   try {
     const orders = await InsuranceOrder.find().sort({ createdAt: -1 });
     res.json(orders);
@@ -23,8 +25,8 @@ router.get('/', async (req, res) => {
   }
 });
 
-// DELETE /api/insurance/:id
-router.delete('/:id', async (req, res) => {
+// DELETE /api/insurance/:id (Protected)
+router.delete('/:id', auth, async (req, res) => {
   try {
     const deleted = await InsuranceOrder.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ message: 'Order not found' });

@@ -50,6 +50,7 @@ function Navbar() {
           
           if (data.success) {
             sessionStorage.setItem('isAdminAuthenticated', 'true');
+            sessionStorage.setItem('adminToken', data.token);
             navigate('/admin');
           } else {
             alert("Access Denied: Incorrect password.");

@@ -3,19 +3,56 @@ const router = express.Router();
 const Settings = require('../models/Settings');
 const fs = require('fs');
 const path = require('path');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const auth = require('../middleware/auth');
 
 // POST /api/settings/verify
-// Securely check the password on the server side
+// Securely check the password and issue a JWT
 router.post('/verify', async (req, res) => {
   try {
     const { password } = req.body;
     let passSetting = await Settings.findOne({ key: 'adminPassword' });
     
-    // Default password from .env or fallback
-    const correctPassword = passSetting ? passSetting.value : process.env.ADMIN_PASSWORD;
+    let correctPassword;
+    let isHashed = false;
+
+    if (passSetting) {
+      correctPassword = passSetting.value;
+      // Simple check if it's a bcrypt hash (starts with $2)
+      isHashed = correctPassword.startsWith('$2');
+    } else {
+      correctPassword = process.env.ADMIN_PASSWORD || 'Risecredit@#11';
+    }
     
-    if (password === correctPassword) {
-      res.json({ success: true, message: 'Authenticated' });
+    let isMatch = false;
+    if (isHashed) {
+      isMatch = await bcrypt.compare(password, correctPassword);
+    } else {
+      isMatch = (password === correctPassword);
+      
+      // Auto-migrate to hash if it was a plain text match
+      if (isMatch) {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        if (passSetting) {
+          passSetting.value = hashedPassword;
+          await passSetting.save();
+        } else {
+          await new Settings({ key: 'adminPassword', value: hashedPassword }).save();
+        }
+        console.log('✅ Migrated plain text password to bcrypt hash');
+      }
+    }
+    
+    if (isMatch) {
+      // Create JWT token
+      const token = jwt.sign({ id: 'admin' }, process.env.JWT_SECRET, { expiresIn: '2h' });
+      res.json({ 
+        success: true, 
+        token, 
+        message: 'Authenticated' 
+      });
     } else {
       res.status(401).json({ success: false, message: 'Invalid password' });
     }
@@ -25,26 +62,29 @@ router.post('/verify', async (req, res) => {
 });
 
 // POST /api/settings/password
-// This should ideally be protected by an admin middleware
-router.post('/password', async (req, res) => {
+// Protected by auth middleware
+router.post('/password', auth, async (req, res) => {
   try {
     const { newPassword } = req.body;
     if (!newPassword) {
       return res.status(400).json({ success: false, message: 'Password cannot be empty' });
     }
     
+    // Hash the new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
     let passSetting = await Settings.findOne({ key: 'adminPassword' });
     if (!passSetting) {
-      passSetting = new Settings({ key: 'adminPassword', value: newPassword });
+      passSetting = new Settings({ key: 'adminPassword', value: hashedPassword });
     } else {
-      passSetting.value = newPassword;
+      passSetting.value = hashedPassword;
     }
     
     await passSetting.save();
     
-    // Update .env file
+    // Update .env file (we keep the plain text in .env for recovery, but DB is hashed)
     try {
-      // Use path.resolve for absolute path consistency
       const envPath = path.resolve(__dirname, '..', '.env');
       
       if (fs.existsSync(envPath)) {
@@ -64,20 +104,14 @@ router.post('/password', async (req, res) => {
           updatedLines.push(`ADMIN_PASSWORD=${newPassword}`);
         }
         
-        // Write back to .env
         fs.writeFileSync(envPath, updatedLines.join('\n'), 'utf8');
-        
-        // Update the current process env so it's immediate
         process.env.ADMIN_PASSWORD = newPassword;
-        console.log(`✅ Successfully synced password to ${envPath}`);
-      } else {
-        console.warn(`⚠️ .env file not found at ${envPath}`);
       }
     } catch (envError) {
       console.error('❌ Error updating .env file:', envError.message);
     }
 
-    res.json({ success: true, message: 'Password updated successfully' });
+    res.json({ success: true, message: 'Password updated and secured successfully' });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
