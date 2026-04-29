@@ -20,10 +20,13 @@ router.post('/verify', async (req, res) => {
     let isHashed = false;
 
     if (passSetting) {
+      console.log('🔍 Checking password against Database setting');
       correctPassword = passSetting.value;
       isHashed = correctPassword.startsWith('$2');
     } else {
+      console.log('🔍 Checking password against .env/Environment Variable');
       correctPassword = (process.env.ADMIN_PASSWORD || 'Risecredit@#11').trim();
+      isHashed = false;
     }
     
     let isMatch = false;
